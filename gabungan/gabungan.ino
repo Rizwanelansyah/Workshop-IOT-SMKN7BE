@@ -38,10 +38,10 @@ void setup() {
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 
-  bot.sendMessage(CHAT_ID, "Loading....", "")
+  bot.sendMessage(CHAT_ID, "Loading....", "");
 
   delay(2000);
-  Serial.print("Monitoring Tanaman, Humiditas gas udara dan Temperatur Linkungan:");
+  Serial.println("Monitoring Tanaman, Humiditas gas udara dan Temperatur Linkungan:");
   dht.begin();
 }
 
@@ -63,5 +63,20 @@ void loop() {
   Serial.print("Kelembaban: ");
   Serial.print(m);
   Serial.print(" %\n");
-  delay(2000);
+  // delay(2000);
+  bot.sendMessage(CHAT_ID, "Monitoring Tanaman, Humiditas gas udara dan Temperatur Linkungan:");
+  kirimPesanTelegram(h, t, m);
+}
+void kirimPesanTelegram(float h, float t, int m) {
+  String pesan = "Suhu saat ini: " + String(t, 2) + " C\n" +
+                 "Humiditas udara saat ini: " + String(h, 2) + " %\n" +
+                 "Tingkat kelembaban tanah saat ini: " + String(m) + " %\n";
+  
+  if (bot.sendMessage(CHAT_ID, pesan, "Markdown")) {
+    Serial.println("Pesan berhasil dikirim!");
+  } else {
+    Serial.println("Gagal mengirim pesan!");
+  }
+
+  delay(1000);
 }
