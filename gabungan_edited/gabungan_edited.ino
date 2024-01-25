@@ -67,7 +67,7 @@ void loop() {
   // delay(2000);
   // bot.sendMessage(CHAT_ID, "Monitoring Tanaman, Humiditas gas udara dan Temperatur Linkungan:");
   // kirimPesanTelegram(h, t, m);
-  if (millis() - bot_lasttime > 500)
+  if (millis() - bot_lasttime > 100)
   {
     int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
 
@@ -90,17 +90,4 @@ void loop() {
 
     bot_lasttime = millis();
   }
-}
-void kirimPesanTelegram(float h, float t, int m) {
-  String pesan = "Suhu saat ini: " + String(t, 2) + " C\n" +
-                 "Humiditas udara saat ini: " + String(h, 2) + " %\n" +
-                 "Tingkat kelembaban tanah saat ini: " + String(m) + " %\n";
-  
-  if (bot.sendMessage(CHAT_ID, pesan, "Markdown")) {
-    Serial.println("Pesan berhasil dikirim!");
-  } else {
-    Serial.println("Gagal mengirim pesan!");
-  }
-
-  delay(1000);
 }
